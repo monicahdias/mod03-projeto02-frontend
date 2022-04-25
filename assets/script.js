@@ -1,5 +1,5 @@
 const baseURL = "http://localhost:3000/paletas";
-const msgAlert = document.querySelector(".msg-alert")
+const msgAlert = document.querySelector(".msg-alert");
 
 async function findAllPaletas() {
   const response = await fetch(`${baseURL}/all-paletas`);
@@ -31,22 +31,22 @@ findAllPaletas();
 async function findByIdPaletas() {
   const id = document.querySelector("#search-input").value;
 
-  if(id == ""){
-    localStorage.setItem('message', "Digite um ID!");
-    localStorage.setItem('type', "danger");
+  if (id == "") {
+    localStorage.setItem("message", "Digite um ID!");
+    localStorage.setItem("type", "danger");
 
-    showMessageAlert()
+    showMessageAlert();
     return;
   }
 
   const response = await fetch(`${baseURL}/one-paleta/${id}`);
   const paleta = await response.json();
 
-  if(paleta.message != undefined){
-    localStorage.setItem('message', paleta.message);
-    localStorage.setItem('type', "danger");
+  if (paleta.message != undefined) {
+    localStorage.setItem("message", paleta.message);
+    localStorage.setItem("type", "danger");
 
-    showMessageAlert()
+    showMessageAlert();
     return;
   }
 
@@ -114,7 +114,9 @@ async function submitPaleta() {
   };
 
   const editionModeActivated = id != "";
-  const endpoint = baseURL + (editionModeActivated ? `/update-paleta/${id}` : "/create-paleta");
+  const endpoint =
+    baseURL +
+    (editionModeActivated ? `/update-paleta/${id}` : "/create-paleta");
 
   const response = await fetch(endpoint, {
     method: editionModeActivated ? "put" : "post",
@@ -127,19 +129,19 @@ async function submitPaleta() {
 
   const novaPaleta = await response.json();
 
-  if(novaPaleta.message != undefined){
-    localStorage.setItem('message', novaPaleta.message);
-    localStorage.setItem('type', "danger");
-    showMessageAlert()
+  if (novaPaleta.message != undefined) {
+    localStorage.setItem("message", novaPaleta.message);
+    localStorage.setItem("type", "danger");
+    showMessageAlert();
     return;
   }
- 
+
   if (editionModeActivated) {
-    localStorage.setItem('message', "Paleta atualizada com sucesso!");
-    localStorage.setItem('type', "success");
+    localStorage.setItem("message", "Paleta atualizada com sucesso!");
+    localStorage.setItem("type", "success");
   } else {
-    localStorage.setItem('message', "Paleta criada com sucesso!");
-    localStorage.setItem('type', "success");
+    localStorage.setItem("message", "Paleta criada com sucesso!");
+    localStorage.setItem("type", "success");
   }
   document.location.reload(true);
   closeModal();
@@ -168,8 +170,8 @@ async function deletePaleta(id) {
 
   const result = await response.json();
 
-  localStorage.setItem('message', result.message);
-  localStorage.setItem('type', "success");
+  localStorage.setItem("message", result.message);
+  localStorage.setItem("type", "success");
 
   document.location.reload(true);
 
@@ -177,15 +179,15 @@ async function deletePaleta(id) {
   findAllPaletas();
 }
 
-function closeMessageAlert(){
-  setTimeout(function(){
+function closeMessageAlert() {
+  setTimeout(function () {
     msgAlert.innerText = "";
     msgAlert.classList.remove(localStorage.getItem("type"));
     localStorage.clear();
-  }, 3000)
-};
+  }, 3000);
+}
 
-function showMessageAlert(){
+function showMessageAlert() {
   msgAlert.innerText = localStorage.getItem("message");
   msgAlert.classList.add(localStorage.getItem("type"));
   closeMessageAlert();
